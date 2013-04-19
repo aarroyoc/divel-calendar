@@ -1,72 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
-    <DatePicker
-        android:id="@+id/datePicker1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.36"
-            android:text="@string/set" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.36"
-            android:text="@string/botaddevt" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Evento:"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.11"
-        android:text="Nigún día seleccionado"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/chat" />
-
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/delevt" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/inf" />
-
-</LinearLayout>
