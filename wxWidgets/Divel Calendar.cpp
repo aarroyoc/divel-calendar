@@ -8,14 +8,14 @@
 
 bool DivCalendar::OnInit()
 {
-	this->SetAppName("Divel Calendar");
-	this->SetVendorName("Adrian Arroyo Calle");
+	this->SetAppName(_("Divel Calendar"));
+	this->SetVendorName(_("Adrian Arroyo Calle"));
 	icono=new wxTaskBarIcon();
 	//icono->SetIcon(wxICON(ICONOCAL),"Divel Calendar está presente en el sistema");
-    Calendario *frame = new Calendario( "Hello World", wxPoint(50,50), wxSize(450,340) );
+    Calendario *frame = new Calendario(_("Hello World"), wxPoint(50,50), wxSize(450,340) );
     frame->Show( true );
     SetTopWindow( frame );
-	icono->Destroy();
+	//icono->Destroy();
     return true;
 }
 int DivCalendar::OnExit()

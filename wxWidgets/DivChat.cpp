@@ -8,12 +8,12 @@
 DivChat::DivChat(const wxString& title) : wxFrame (NULL, wxID_ANY, title, wxDefaultPosition, wxSize(220, 530))
 {
 	wxPanel* panel=new wxPanel(this);
-	wxButton* join=new wxButton(panel,ID_JOIN,"Unirse a sala",wxPoint(1,1),wxSize(100,50));
-	wxButton* host=new wxButton(panel,ID_HOST,"Crear sala",wxPoint(101,1),wxSize(100,50));
-	chat=new wxTextCtrl(panel,wxID_ANY,"",wxPoint(1,55),wxSize(200,400),wxTE_MULTILINE | wxTE_READONLY);
+	wxButton* join=new wxButton(panel,ID_JOIN,_("Unirse a sala"),wxPoint(1,1),wxSize(100,50));
+	wxButton* host=new wxButton(panel,ID_HOST,_("Crear sala"),wxPoint(101,1),wxSize(100,50));
+	chat=new wxTextCtrl(panel,wxID_ANY,_(""),wxPoint(1,55),wxSize(200,400),wxTE_MULTILINE | wxTE_READONLY);
 	delete wxLog::SetActiveTarget(new wxLogTextCtrl(chat));
-	input=new wxTextCtrl(panel,wxID_ANY,"",wxPoint(5,460),wxSize(150,20),wxTE_RICH2);
-	wxButton* enviar=new wxButton(panel,ID_ENVIAR,"OK",wxPoint(160,460),wxSize(40,30));
+	input=new wxTextCtrl(panel,wxID_ANY,_(""),wxPoint(5,460),wxSize(150,20),wxTE_RICH2);
+	wxButton* enviar=new wxButton(panel,ID_ENVIAR,_("OK"),wxPoint(160,460),wxSize(40,30));
 	chat->SetFocus();
 	Connect(ID_HOST,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(DivChat::Servidor));
 	Connect(ID_JOIN,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(DivChat::Cliente));
@@ -28,7 +28,7 @@ DivChat::~DivChat(void)
 void DivChat::Servidor(wxCommandEvent& event)
 {
 #ifdef WIN32
-	int tipoip=wxMessageBox("¿Deseas IPv6? En caso contrario se usará IPv4","Divel Network",wxYES_NO|wxCANCEL|wxICON_QUESTION);
+	int tipoip=wxMessageBox(_("¿Deseas IPv6? En caso contrario se usará IPv4"),_("Divel Network"),wxYES_NO|wxCANCEL|wxICON_QUESTION);
 	long aceptados=0;
 	long posicion=0;
 	amigos=1L;
@@ -145,18 +145,18 @@ void DivChat::Servidor(wxCommandEvent& event)
 	send(DIVCliente[aux],first,1024,0);
 	}*/
 	send(DIVCliente[0],first,1024,0);
-	wxLogMessage("Todos conectados");
+	wxLogMessage(_("Todos conectados"));
 	int algo=0;
 	int result=0;
 	char buffer[1024];
-	wxLogMessage("Iniciando chat...");
+	wxLogMessage(_("Iniciando chat..."));
 	recv(DIVCliente[0],buffer,1024,0);
 	while(algo==0){
 	//do{
 	result=recv(DIVCliente[0],buffer,1024,0);
 	//}while(result>0);
 	wxLogMessage(buffer);
-	wxString data=wxGetTextFromUser(wxString::Format("Contesta a:\n%s",buffer),"DivChat","");
+	wxString data=wxGetTextFromUser(_("Contesta a: ")+buffer+_("\n"),_("DivChat"),_(""));
 	wxLogMessage(data);
 	send(DIVCliente[0],data,1024,0);
 
@@ -188,16 +188,16 @@ void DivChat::Servidor(wxCommandEvent& event)
 	int aux;
 	char* first="Todos conectados";
 	send(DIVCliente[0],first,1024,0);
-	wxLogMessage("Todos conectados");
+	wxLogMessage(_("Todos conectados"));
 	int algo=0;
 	int result=0;
 	char buffer[1024];
-	wxLogMessage("Iniciando chat...");
+	wxLogMessage(_("Iniciando chat..."));
 	recv(DIVCliente[0],buffer,1024,0);
 	while(algo==0){
 	result=recv(DIVCliente[0],buffer,1024,0);
-	wxLogMessage(buffer);
-	wxString data=wxGetTextFromUser(wxString::Format("Contesta a:\n%s",buffer),"DivChat","");
+	wxLogMessage(wxString::FromUTF8(buffer));
+	wxString data=wxGetTextFromUser(_("Contesta a: ")+wxString::FromUTF8(buffer)+_("\n"),_("DivChat"),_(""));
 	wxLogMessage(data);
 	send(DIVCliente[0],data,1024,0);
 	}
@@ -213,13 +213,13 @@ void DivChat::Cliente(wxCommandEvent& event)
 {
 #ifdef WIN32
 	struct WSAData wsa;
-	int tipoip=wxMessageBox("¿Deseas IPv6? En caso contrario se usará IPv4","Divel Network",wxYES_NO|wxCANCEL|wxICON_QUESTION);
+	int tipoip=wxMessageBox(_("¿Deseas IPv6? En caso contrario se usará IPv4"),_("Divel Network"),wxYES_NO|wxCANCEL|wxICON_QUESTION);
 	if(tipoip==wxYES){
 	//IPv6-Cliente
 
 	WSAStartup(MAKEWORD(2,0),&wsa);
 	char Buffer[4096], AddrName[NI_MAXHOST];
-	wxString ipnueva=wxGetTextFromUser("Introduce la IP","DivChat","::1");
+	wxString ipnueva=wxGetTextFromUser(_("Introduce la IP"),_("DivChat"),_("::1"));
 	char ip[1024];
 	strncpy(ip, (const char*)ipnueva.mb_str(wxConvUTF8), 1023);
     char *Server = ip;
@@ -257,7 +257,7 @@ void DivChat::Cliente(wxCommandEvent& event)
 	
 	}else if(tipoip==wxNO){
 	//IPv4-Cliente
-	wxString ipnueva=wxGetTextFromUser("Introduce la IP","DivChat","127.0.0.1");
+	wxString ipnueva=wxGetTextFromUser(_("Introduce la IP"),_("DivChat"),_("127.0.0.1"));
 	char ip[1024];
 	strncpy(ip, (const char*)ipnueva.mb_str(wxConvUTF8), 1023);
     char *Server = ip;
@@ -302,7 +302,7 @@ void DivChat::Cliente(wxCommandEvent& event)
 	//do{
 	estilo=recv(DivServer,first,1023,0);
 	//}while(estilo!=-1);
-	wxLogMessage(first); //Todos conectados
+	wxLogMessage(wxString::FromUTF8(first)); //Todos conectados
 	online=true;
 	int algo=0;
 	int result=0;
@@ -310,14 +310,14 @@ void DivChat::Cliente(wxCommandEvent& event)
 	
 	send(DivServer,"Estoy conectado",1024,0);
 	
-	wxLogMessage("Estoy conectado");
+	wxLogMessage(_("Estoy conectado"));
 	while(algo==0){
 	
 	//do{
 	result=recv(DivServer,buffer,1024,0);
 	//}while(result>0);
-	wxLogMessage(buffer);
-	wxString data=wxGetTextFromUser(wxString::Format("Contesta a:\n%s",buffer),"DivChat","");
+	wxLogMessage(wxString::FromUTF8(buffer));
+	wxString data=wxGetTextFromUser(_("Contesta a: ")+buffer+_("\n"),_("DivChat"),_(""));
 	wxLogMessage(data);
 	send(DivServer,data,1024,0);
 	}
@@ -327,7 +327,7 @@ void DivChat::Cliente(wxCommandEvent& event)
 	char ip[1024];
 	char nombreCliente1[1024];
 	char nombreCliente2[1024];
-	wxString wxip=wxGetTextFromUser("Introduce la IPv6 del server de Azpazeta","Divel Network","::1");	
+	wxString wxip=wxGetTextFromUser(_("Introduce la IPv6 del server de Azpazeta"),_("Divel Network"),_("::1"));	
 	strncpy(ip, (const char*)wxip.mb_str(wxConvUTF8), 1023);
 	struct sockaddr_in6 Direccion;
 	struct servent *Puerto;
@@ -340,7 +340,7 @@ void DivChat::Cliente(wxCommandEvent& event)
 	char first[1024];
 	int estilo=0;
 	estilo=recv(DivServer,first,1023,0);
-	wxLogMessage(first); //Todos conectados
+	wxLogMessage(wxString::FromUTF8(first)); //Todos conectados
 	online=true;
 	int algo=0;
 	int result=0;
@@ -348,12 +348,12 @@ void DivChat::Cliente(wxCommandEvent& event)
 	
 	send(DivServer,"Estoy conectado",1024,0);
 	
-	wxLogMessage("Estoy conectado");
+	wxLogMessage(_("Estoy conectado"));
 	while(algo==0){
 	result=recv(DivServer,buffer,1024,0);
 
-	wxLogMessage(buffer);
-	wxString data=wxGetTextFromUser(wxString::Format("Contesta a:\n%s",buffer),"DivChat","");
+	wxLogMessage(wxString::FromUTF8(buffer));
+	wxString data=wxGetTextFromUser(_("Contesta a: ")+wxString::FromUTF8(buffer)+_("\n"),_("DivChat"),_(""));
 	wxLogMessage(data);
 	send(DivServer,data,1024,0);
 	}
@@ -365,7 +365,7 @@ void DivChat::Cliente(wxCommandEvent& event)
 void DivChat::Enviar(wxCommandEvent& event)
 {
 	#ifdef WIN32
-	if(online==false){wxMessageBox("Antes conéctate a una sala","DivChat",wxICON_ERROR|wxOK);}else{
+	if(online==false){wxMessageBox(_("Antes conéctate a una sala"),_("DivChat"),wxICON_ERROR|wxOK);}else{
 	//Enviar mensaje
 	send(DivServer,input->GetValue(),strlen(input->GetValue()),0);
 	//Obtener respuestas

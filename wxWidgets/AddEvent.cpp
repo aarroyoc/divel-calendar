@@ -7,8 +7,8 @@ AddEvent::AddEvent(const wxString& title,int diadelano2,int mes2,int ano2) : wxD
 {
 
 	SetSize(300,200);
-	wxStaticText* ititulo=new wxStaticText(this,wxID_ANY,"Titulo:",wxPoint(1,10));
-	titulo=new wxTextCtrl(this,wxID_ANY,"",wxPoint(70,10),wxSize(200,20),wxTE_RICH2);
+	wxStaticText* ititulo=new wxStaticText(this,wxID_ANY,wxT("Titulo:"),wxPoint(1,10));
+	titulo=new wxTextCtrl(this,wxID_ANY,wxT(""),wxPoint(70,10),wxSize(200,20),wxTE_RICH2);
 
 	switch(mes2){
 	case 0:break;
@@ -31,15 +31,15 @@ AddEvent::AddEvent(const wxString& title,int diadelano2,int mes2,int ano2) : wxD
 	}
 
 
-	idia=new wxStaticText(this,wxID_ANY,wxString::Format("Fecha: %d de %d del %d",diadelano2,mes2,ano2),wxPoint(1,30));
+	idia=new wxStaticText(this,wxID_ANY,wxString::Format(wxT("Fecha: %d de %d del %d"),diadelano2,mes2,ano2),wxPoint(1,30));
 	//Lugar, duración, comentario
-	wxStaticText* ilugar=new wxStaticText(this,wxID_ANY,"Lugar:",wxPoint(1,50));
-	lugar=new wxTextCtrl(this,wxID_ANY,"",wxPoint(70,50),wxSize(200,20));
-	wxStaticText* iduracion=new wxStaticText(this,wxID_ANY,"Duracion:",wxPoint(1,70));
-	duracion=new wxTextCtrl(this,wxID_ANY,"",wxPoint(70,70),wxSize(200,20));
-	wxStaticText* icomentario=new wxStaticText(this,wxID_ANY,"Comentario:",wxPoint(1,90));
-	comentario=new wxTextCtrl(this,wxID_ANY,"",wxPoint(70,90),wxSize(200,20));
-	wxButton* ok=new wxButton(this,ID_ADDEVTOK,"OK",wxPoint(70,110));
+	wxStaticText* ilugar=new wxStaticText(this,wxID_ANY,wxT("Lugar:"),wxPoint(1,50));
+	lugar=new wxTextCtrl(this,wxID_ANY,wxT(""),wxPoint(70,50),wxSize(200,20));
+	wxStaticText* iduracion=new wxStaticText(this,wxID_ANY,wxT("Duracion:"),wxPoint(1,70));
+	duracion=new wxTextCtrl(this,wxID_ANY,wxT(""),wxPoint(70,70),wxSize(200,20));
+	wxStaticText* icomentario=new wxStaticText(this,wxID_ANY,wxT("Comentario:"),wxPoint(1,90));
+	comentario=new wxTextCtrl(this,wxID_ANY,wxT(""),wxPoint(70,90),wxSize(200,20));
+	wxButton* ok=new wxButton(this,ID_ADDEVTOK,wxT("OK"),wxPoint(70,110));
 	Connect(ID_ADDEVTOK, wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(AddEvent::OK));
 
 }
@@ -56,8 +56,8 @@ void AddEvent::OK(wxCommandEvent& event)
 
 
 	if(ano<0 || ano>5000){
-	ano=wxGetNumberFromUser("Introduce al ano del evento","Escribe el numero","Divel Calendar",0L,0L,5000L);
-	diadelano=wxGetNumberFromUser("Introduce el dia del evento","Escribe el numero","Divel Calendar",0L,0L,366L);
+	ano=wxGetNumberFromUser(wxT("Introduce al ano del evento"),wxT("Escribe el numero"),wxT("Divel Calendar"),0L,0L,5000L);
+	diadelano=wxGetNumberFromUser(wxT("Introduce el dia del evento"),wxT("Escribe el numero"),wxT("Divel Calendar"),0L,0L,366L);
 	
 	
 	}
@@ -86,19 +86,22 @@ void AddEvent::OK(wxCommandEvent& event)
 
 	wxString data[]={titulo->GetValue(),lugar->GetValue(),duracion->GetValue(),comentario->GetValue()};
 	
-	wxString appdata=getenv("HOME");
-	wxString pathanual=wxString::Format("%s/Divel/Calendar/%d",appdata,ano);
+	char* appdata_chr=getenv("HOME");
+	wxString appdata=wxString::FromUTF8(appdata_chr);
+	//wxString pathanual=wxString::Format(wxT("%s/Divel/Calendar/%d"),appdata,ano);
+	wxString pathanual=appdata+wxT("/Divel/Calendar/")+wxString::Format(wxT("%d"),ano);
 	if(wxDirExists(pathanual)==false)
 	{
 		wxMkdir(pathanual);
 	}
 	//CREAR CARPETA MENSUAL
-	if(wxDirExists(wxString::Format("%s/Divel/Calendar/%d/%d",appdata,ano,mes))==false)
+	wxString pathmensual=appdata+wxT("/Divel/Calendar/")+wxString::Format(wxT("%d/%d"),ano,mes);
+	if(wxDirExists(pathmensual)==false)
 	{
-		wxMkdir(wxString::Format("%s/Divel/Calendar/%d/%d",appdata,ano,mes));
+		wxMkdir(pathmensual);
 	}
 
-	wxString pathdiario=wxString::Format("%s/%d/%d",pathanual,mes,diadelano);
+	wxString pathdiario=pathmensual+wxString::Format(wxT("/%d"),diadelano);
 	if(wxFileExists(pathdiario)==false)
 	{
 		//Crear fichero nuevo
@@ -119,11 +122,11 @@ void AddEvent::OK(wxCommandEvent& event)
 	  ofstream diafile(pathdiario.mb_str(),ofstream::app);
 	  if(diafile.is_open() && diafile.good())
 	  {
-		wxString esc="Event: "+data[0]+"~"+data[1]+"~"+data[2]+"~"+data[3]+"\n";
+		wxString esc=wxT("Event: ")+data[0]+wxT("~")+data[1]+wxT("~")+data[2]+wxT("~")+data[3]+wxT("\n");
 		diafile << esc;
 
 	  }else{
-	  wxMessageBox("No se ha podido guardar el evento","Divel Calendar Error",wxICON_ERROR|wxOK);
+	  wxMessageBox(wxT("No se ha podido guardar el evento"),wxT("Divel Calendar Error"),wxICON_ERROR|wxOK);
 	  }
 	  Destroy();
 }

@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_auto_configure:
+	cmake . -DCMAKE_INSTALL_PREFIX=${CURDIR}/debian/divel-calendar/usr
+	#mkdir -p ${CURDIR}/debian/azpazeta
+	#cp -rv build/* ${CURDIR}/debian/azpazeta/
+	#dh_auto_configure
+override_dh_auto_build:
+	make
+override_dh_auto_install:
+	make install
+	mkdir -p ${CURDIR}/debian/divel-calendar/usr/share/applications
+	mkdir -p ${CURDIR}/debian/divel-calendar/usr/share/pixmaps
+	cp DivelCalendar.desktop.desktop.desktop ${CURDIR}/debian/divel-calendar/usr/share/applications/
+	cp DivelCalendar.png ${CURDIR}/debian/divel-calendar/usr/share/pixmaps/divel-calendar.png
+	#ln -s ${CURDIR}/debian/azpazeta/opt/azpazeta/doc/html/ ${CURDIR}/debian/azpazeta/usr/share/help/C/azpazeta

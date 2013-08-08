@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Divel Calendar
+Comment=Divel Calendar, chat with friends and create events.
+Comment[es]=Divel Calendar, chatea con amigos y crea eventos.
+Exec=DIVEL_CALENDAR
+Terminal=false
+Type=Application
+Icon=divel-calendar
+Categories=Utilities
