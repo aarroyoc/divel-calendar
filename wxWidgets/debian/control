@@ -3,13 +3,13 @@ Section: editors
 Priority: optional
 Maintainer: Adrian Arroyo Calle (Divel) <adrian.arroyocalle@gmail.com>
 Build-Depends: debhelper (>= 7), libstdc++6(>= 4.1), libwxgtk2.8-dev, cmake
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Homepage: http://sites.google.com/site/divelmedia
 
 
 Architecture: any
 Depends:${shlibs:Depends}
-Version: 1.0.0.2
+Version: 1.0.0.3
 Description: Divel Calendar
  Day by day storages your cites and events
 Package: divel-calendar
