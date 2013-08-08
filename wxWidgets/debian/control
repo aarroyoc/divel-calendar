@@ -9,7 +9,7 @@ Homepage: http://sites.google.com/site/divelmedia
 
 Architecture: any
 Depends:${shlibs:Depends}
-Version: 1.0.0.1
+Version: 1.0.0.2
 Description: Divel Calendar
  Day by day storages your cites and events
 Package: divel-calendar
