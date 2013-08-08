@@ -1,0 +1,43 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+#Create tar.gz file with tar -zcvf divel-calendar.tar.gz .
+
+# Maintainer: Adrian Arroyo Calle <adrian.arroyocalle@gmail.com>
+pkgname=Divel_Calendar
+pkgver=1.0.0
+pkgrel=2
+pkgdesc="Day by day storage your cites and events in Divel Calendar"
+arch=('i686' 'x86_64')
+url="http://sites.google.com/site/divelmedia"
+license=('GPL')
+groups=()
+depends=('wxgtk')
+makedepends=('wxgtk' 'cmake')
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install=
+changelog=
+source=(divel-calendar.tar.gz) #generate with tar -zcvf divel-calendar.tar.gz .
+noextract=()
+md5sums=('223e698bf0c61ff81b945944a66a1737') #generate with 'makepkg -g'
+
+build() {
+  cd "$srcdir"
+  cmake . -DCMAKE_INSTALL_PREFIX=/usr
+  make
+}
+
+package() {
+ make DESTDIR=$pkgdir install
+ mkdir -p $pkgdir/usr/share/applications
+ mkdir -p $pkgdir/usr/share/pixmaps
+ cp $srcdir/DivelCalendar.desktop.desktop.desktop $pkgdir/usr/share/applications/
+ cp $srcdir/DivelCalendar.png $pkgdir/usr/share/pixmaps/
+}
