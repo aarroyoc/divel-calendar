@@ -2,7 +2,7 @@ Source: divel-calendar
 Section: editors
 Priority: optional
 Maintainer: Adrian Arroyo Calle (Divel) <adrian.arroyocalle@gmail.com>
-Build-Depends: debhelper (>= 7), libstdc++6(>= 4.1), libwxgtk2.8-dev
+Build-Depends: debhelper (>= 7), libstdc++6(>= 4.1), libwxgtk2.8-dev, cmake
 Standards-Version: 3.9.2
 Homepage: http://sites.google.com/site/divelmedia
 
