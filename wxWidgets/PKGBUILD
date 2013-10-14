@@ -24,12 +24,13 @@ backup=()
 options=()
 install=
 changelog=
-source=(divel-calendar.tar.gz) #generate with tar -zcvf divel-calendar.tar.gz .
+#source=(divel-calendar.tar.gz) #generate with tar -zcvf divel-calendar.tar.gz .
+source=("$pkgname"::'git://github.com/AdrianArroyoCalle/divel-calendar')
 noextract=()
-md5sums=('223e698bf0c61ff81b945944a66a1737') #generate with 'makepkg -g'
+md5sums=('SKIP') #generate with 'makepkg -g'
 
 build() {
-  cd "$srcdir"
+  cd "$pkgname"/wxWidgets
   cmake . -DCMAKE_INSTALL_PREFIX=/usr
   make
 }
